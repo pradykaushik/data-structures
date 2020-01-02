@@ -59,3 +59,14 @@ func TestLinkedList_Delete(t *testing.T) {
 	}
 	assert.True(t, ll.IsEmpty())
 }
+
+func TestLinkedList_Reverse(t *testing.T) {
+	ll := getLinkedList()
+	values := ll.SerializeIntoArray()
+	ll.Reverse()
+	valuesReversed := ll.SerializeIntoArray()
+	assert.Equal(t, len(values), len(valuesReversed))
+	for i := 0; i < len(values); i++ {
+		assert.Equal(t, values[i], valuesReversed[len(values)-i-1])
+	}
+}

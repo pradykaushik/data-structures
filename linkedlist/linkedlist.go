@@ -70,6 +70,28 @@ func (ll *LinkedList) Delete(val int) bool {
 	return deleted
 }
 
+func (ll *LinkedList) Reverse() {
+	if ll.IsEmpty() {
+		return
+	}
+
+	var prev *node
+	var cur = ll.head
+	var next = cur.next
+	for cur.next != nil {
+		cur.next = prev
+		prev = cur
+		cur = next
+		if next != nil {
+			next = next.next
+		}
+	}
+	if prev != nil {
+		cur.next = prev
+	}
+	ll.head = cur
+}
+
 func (ll LinkedList) SerializeIntoArray() []int {
 	values := make([]int, ll.size)
 	for i, cur := 0, ll.head; cur != nil; i, cur = i+1, cur.next {
