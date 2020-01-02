@@ -7,3 +7,4 @@ Run `go test ./<name of data structure>`.
 ## Data structures implemented
 * Stack
 * LinkedList
+* Heap (only BuildHeap() implemented)
