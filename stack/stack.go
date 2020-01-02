@@ -12,17 +12,17 @@ type Stack interface {
 
 // ArrayStack is a stack that uses an array to store values.
 type ArrayStack struct {
-	values []int
-	top int
-	size int
+	values   []int
+	top      int
+	size     int
 	capacity int
 }
 
 func NewArrayStack(capacity int) Stack {
 	return &ArrayStack{
-		values: make([]int, capacity),
-		top: -1,
-		size: 0,
+		values:   make([]int, capacity),
+		top:      -1,
+		size:     0,
 		capacity: capacity,
 	}
 }

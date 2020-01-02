@@ -60,4 +60,3 @@ func TestArrayStack_Pop(t *testing.T) {
 		assert.Equal(t, val, 20-i-1)
 	}
 }
-
