@@ -8,3 +8,4 @@ Run `go test ./<name of data structure>`.
 * Stack
 * LinkedList
 * Heap
+* Binary Search Tree (Delete() implemented)
