@@ -1,12 +1,15 @@
 package heap
 
+import "github.com/pkg/errors"
+
 type Heap interface {
 	BuildHeap()
 	Heapify(int)
 	Insert(int)
-	Delete(int) bool
-	SiftUp()
-	SiftDown()
+	DeleteMax() bool
+	FindMax() (int, error)
+	IsEmpty() bool
+	Size() int
 }
 
 type MaxHeap struct {
@@ -22,7 +25,11 @@ func NewMaxHeap(arr []int) Heap {
 }
 
 func (h MaxHeap) withinBounds(i int) bool {
-	return i < len(h.data)
+	return (i < len(h.data)) && (i >= 0)
+}
+
+func (h MaxHeap) IsEmpty() bool {
+	return len(h.data) == 0
 }
 
 func (h *MaxHeap) Heapify(i int) {
@@ -56,18 +63,33 @@ func (h *MaxHeap) BuildHeap() {
 	}
 }
 
-func (h *MaxHeap) Insert(val int) {
-
+func (h *MaxHeap) siftUp(i int) {
+	parent := i / 2
+	if h.withinBounds(parent) && (h.data[parent] < h.data[i]) {
+		h.data[parent], h.data[i] = h.data[i], h.data[parent]
+		h.siftUp(parent)
+	}
 }
 
-func (h *MaxHeap) Delete(val int) bool {
+func (h *MaxHeap) Insert(val int) {
+	// Insert val at the end and then sift up till the heap property holds.
+	h.data = append(h.data, val)
+	h.size++
+	h.siftUp(len(h.data) - 1)
+}
+
+func (h *MaxHeap) DeleteMax() bool {
 	return false
 }
 
-func (h *MaxHeap) SiftUp() {
+func (h MaxHeap) FindMax() (int, error) {
+	if h.IsEmpty() {
+		return -1, errors.New("heap is empty ")
+	}
 
+	return h.data[0], nil
 }
 
-func (h *MaxHeap) SiftDown() {
-
+func (h MaxHeap) Size() int {
+	return h.size
 }
