@@ -2,6 +2,7 @@ package binarySearchTree
 
 import (
 	"github.com/stretchr/testify/assert"
+	"math/rand"
 	"sort"
 	"testing"
 )
@@ -14,7 +15,7 @@ func TestNewBinarySearchTree(t *testing.T) {
 
 func getBST() (*BinarySearchTree, []int) {
 	bst := NewBinarySearchTree()
-	values := []int{13, 11, 10, 17, 7, 4, 1}
+	values := []int{13, 11, 9, 10, 17, 7, 4, 1, 15, 16, 22}
 	for _, val := range values {
 		bst.Insert(val)
 	}
@@ -58,7 +59,7 @@ func checkRight(cur *node) bool {
 
 func TestBinarySearchTree_Insert(t *testing.T) {
 	bst := NewBinarySearchTree()
-	values := []int{13, 11, 10, 17, 7, 4, 1}
+	values := []int{13, 11, 9, 10, 17, 7, 4, 1, 15, 16, 22}
 	for _, val := range values {
 		bst.Insert(val)
 	}
@@ -76,6 +77,26 @@ func TestBinarySearchTree_Search(t *testing.T) {
 	assert.False(t, bst.Search(14))
 }
 
+func TestBinarySearchTree_Delete(t *testing.T) {
+	bst, values := getBST()
+	for i, val := range values {
+		assert.True(t, bst.Delete(val))
+		assert.Equal(t, bst.size, len(values)-i-1)
+	}
+
+	// Random deletes.
+	bst, values = getBST()
+	deleted := make(map[int]bool)
+	for !bst.IsEmpty() {
+		randVal := values[rand.Intn(len(values))]
+		if _, ok := deleted[randVal]; ok {
+			continue
+		}
+		assert.True(t, bst.Delete(randVal))
+		deleted[randVal] = true
+	}
+}
+
 func TestBinarySearchTree_Inorder(t *testing.T) {
 	bst, values := getBST()
 	sort.SliceStable(values, func(i, j int) bool {
@@ -86,12 +107,12 @@ func TestBinarySearchTree_Inorder(t *testing.T) {
 
 func TestBinarySearchTree_Preorder(t *testing.T) {
 	bst, _ := getBST()
-	expectedValuesPreorder := []int{13, 11, 10, 7, 4, 1, 17}
+	expectedValuesPreorder := []int{13, 11, 9, 7, 4, 1, 10, 17, 15, 16, 22}
 	assert.Equal(t, expectedValuesPreorder, bst.Preorder())
 }
 
 func TestBinarySearchTree_Postorder(t *testing.T) {
 	bst, _ := getBST()
-	expectedValuesPostorder := []int{1, 4, 7, 10, 11, 17, 13}
+	expectedValuesPostorder := []int{1, 4, 7, 10, 9, 11, 16, 15, 22, 17, 13}
 	assert.Equal(t, expectedValuesPostorder, bst.Postorder())
 }

@@ -57,6 +57,89 @@ func (t BinarySearchTree) search(cur *node, val int) bool {
 	return t.search(cur.left, val)
 }
 
+func (t *BinarySearchTree) Delete(val int) (deleted bool) {
+	if t.IsEmpty() {
+		deleted = false
+	} else {
+		deleted = t.delete(val)
+		if deleted {
+			t.size--
+		}
+	}
+	return
+}
+
+func (t BinarySearchTree) find(cur *node, val int) (*node, *node) {
+	return t.findHelper(nil, t.root, val)
+}
+
+func (t BinarySearchTree) findHelper(parent *node, cur *node, val int) (*node, *node) {
+	if cur == nil {
+		return parent, cur
+	}
+	if cur.val == val {
+		return parent, cur
+	}
+	if cur.val < val {
+		return t.findHelper(cur, cur.right, val)
+	}
+	return t.findHelper(cur, cur.left, val)
+}
+
+func (t BinarySearchTree) isLeaf(n *node) bool {
+	return (n != nil) && (n.left == nil) && (n.right == nil)
+}
+
+func (t *BinarySearchTree) delete(val int) bool {
+	parent, valNode := t.find(t.root, val)
+	if valNode == nil {
+		return false // node with val does not exist.
+	}
+	// If valNode is the leaf node, then the link to the parent needs to be snapped.
+	if t.isLeaf(valNode) {
+		if parent == nil {
+			// valNode is root.
+			t.root = nil
+			return true
+		}
+		if parent.left == valNode {
+			parent.left = nil
+		} else {
+			parent.right = nil
+		}
+		return true
+	}
+	// valNode is not a leaf.
+	// If valNode is root and there is no right child.
+	// In this case, the left child becomes the root.
+	if (valNode == t.root) && (t.root.right == nil) {
+		t.root = t.root.left
+		return true
+	}
+	// valNode is root or internal node.
+	if valNode.right == nil {
+		parent.left = valNode.left
+		return true
+	}
+	// A valid right child exists and we need to find a replacement.
+	// The next largest value in the right subtree.
+	parent = valNode
+	temp := valNode.right
+	for temp.left != nil {
+		parent = temp
+		temp = temp.left
+	}
+	// Replacing the value at valNode.
+	valNode.val = temp.val
+	// Breaking the link between parent and temp as that node is no longer required.
+	if parent.left == temp {
+		parent.left = temp.right
+	} else {
+		parent.right = temp.right
+	}
+	return true
+}
+
 func (t BinarySearchTree) IsEmpty() bool {
 	return t.root == nil
 }
