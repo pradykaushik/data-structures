@@ -45,5 +45,12 @@ func TestMaxHeap_Insert(t *testing.T) {
 	newSize := h.Size()
 	assert.Equal(t, oldSize+1, newSize)
 	testHeap(t, h.(*MaxHeap).data)
-	assert.Equal(t, h.(*MaxHeap).data[0], 17)
+}
+
+func TestMaxHeap_FindMax(t *testing.T) {
+	h := getMaxHeap([]int{5, 7, 10, 1, 4, 11, 13})
+	h.BuildHeap()
+	max, err := h.FindMax()
+	assert.NoError(t, err)
+	assert.Equal(t, max, 13)
 }
