@@ -6,7 +6,7 @@ type Heap interface {
 	BuildHeap()
 	Heapify(int)
 	Insert(int)
-	DeleteMax() bool
+	DeleteMax()
 	FindMax() (int, error)
 	IsEmpty() bool
 	Size() int
@@ -78,8 +78,14 @@ func (h *MaxHeap) Insert(val int) {
 	h.siftUp(len(h.data) - 1)
 }
 
-func (h *MaxHeap) DeleteMax() bool {
-	return false
+func (h *MaxHeap) DeleteMax() {
+	// Swap the value at root (max) with that at the last node.
+	// Shrink the array by 1 to exclude the last value.
+	// Sift down the value at root until the heap property is restored.
+	h.data[0] = h.data[len(h.data)-1]
+	h.data = h.data[:len(h.data)-1]
+	h.Heapify(0) // This will sift down the root to the correct location in the heap.
+	h.size--
 }
 
 func (h MaxHeap) FindMax() (int, error) {
