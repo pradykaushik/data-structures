@@ -9,3 +9,4 @@ Run `go test ./<name of data structure>`.
 * LinkedList
 * Heap
 * Binary Search Tree
+* Fifo Queue
