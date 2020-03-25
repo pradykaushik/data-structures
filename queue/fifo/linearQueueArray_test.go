@@ -6,18 +6,18 @@ import (
 	"testing"
 )
 
-type fifoQVal int
+type linearQArrVal int
 
-func (v fifoQVal) Get() interface{} {
+func (v linearQArrVal) Get() interface{} {
 	return int(v)
 }
 
-func TestNewFifoQueue(t *testing.T) {
-	q := NewFifoQueue(10)
+func TestNewLinearQueueArr(t *testing.T) {
+	q := NewLinearQueueArr(10)
 	// Testing types.
 	_, ok := q.(queue.Queue)
 	assert.True(t, ok)
-	_, ok = q.(*FifoQueue)
+	_, ok = q.(*LinearQueueArr)
 	assert.True(t, ok)
 	// Testing capacity.
 	assert.Equal(t, q.Capacity(), 10)
@@ -26,9 +26,9 @@ func TestNewFifoQueue(t *testing.T) {
 }
 
 func getQueue(capacity int, t *testing.T) queue.Queue {
-	q := NewFifoQueue(capacity)
+	q := NewLinearQueueArr(capacity)
 	for i := 0; i < capacity; i++ {
-		err := q.Enqueue(fifoQVal(i))
+		err := q.Enqueue(linearQArrVal(i))
 		assert.NoError(t, err)
 	}
 	return q
@@ -36,7 +36,7 @@ func getQueue(capacity int, t *testing.T) queue.Queue {
 
 func TestEnqueue(t *testing.T) {
 	q := getQueue(10, t)
-	assert.Error(t, q.Enqueue(fifoQVal(100))) // value does not matter.
+	assert.Error(t, q.Enqueue(linearQArrVal(100))) // value does not matter.
 	assert.Equal(t, q.Size(), 10)
 	assert.False(t, q.IsEmpty())
 }
