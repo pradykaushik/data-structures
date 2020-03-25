@@ -22,13 +22,13 @@ func (t *BinarySearchTree) Insert(val int) {
 }
 
 func (t *BinarySearchTree) insert(cur *node, val int) {
-	if cur.val < val {
+	if cur.val.Get().(int) < val {
 		if cur.right == nil {
 			cur.right = newNode(val)
 			return
 		}
 		t.insert(cur.right, val)
-	} else if cur.val > val {
+	} else if cur.val.Get().(int) > val {
 		if cur.left == nil {
 			cur.left = newNode(val)
 			return
@@ -48,10 +48,10 @@ func (t BinarySearchTree) search(cur *node, val int) bool {
 	if cur == nil {
 		return false
 	}
-	if cur.val == val {
+	if cur.val.Get().(int) == val {
 		return true
 	}
-	if cur.val < val {
+	if cur.val.Get().(int) < val {
 		return t.search(cur.right, val)
 	}
 	return t.search(cur.left, val)
@@ -77,10 +77,10 @@ func (t BinarySearchTree) findHelper(parent *node, cur *node, val int) (*node, *
 	if cur == nil {
 		return parent, cur
 	}
-	if cur.val == val {
+	if cur.val.Get().(int) == val {
 		return parent, cur
 	}
-	if cur.val < val {
+	if cur.val.Get().(int) < val {
 		return t.findHelper(cur, cur.right, val)
 	}
 	return t.findHelper(cur, cur.left, val)
@@ -155,7 +155,7 @@ func (t BinarySearchTree) populateInorder(cur *node, data *[]int) {
 		return
 	}
 	t.populateInorder(cur.left, data)
-	*data = append(*data, cur.val)
+	*data = append(*data, cur.val.Get().(int))
 	t.populateInorder(cur.right, data)
 }
 
@@ -169,7 +169,7 @@ func (t BinarySearchTree) populatePreorder(cur *node, data *[]int) {
 	if cur == nil {
 		return
 	}
-	*data = append(*data, cur.val)
+	*data = append(*data, cur.val.Get().(int))
 	t.populatePreorder(cur.left, data)
 	t.populatePreorder(cur.right, data)
 }
@@ -186,5 +186,5 @@ func (t BinarySearchTree) populatePostorder(cur *node, data *[]int) {
 	}
 	t.populatePostorder(cur.left, data)
 	t.populatePostorder(cur.right, data)
-	*data = append(*data, cur.val)
+	*data = append(*data, cur.val.Get().(int))
 }

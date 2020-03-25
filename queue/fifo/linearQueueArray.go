@@ -2,6 +2,7 @@ package fifo
 
 import (
 	"github.com/pradykaushik/data-structures/queue"
+	"github.com/pradykaushik/data-structures/util"
 	"github.com/pkg/errors"
 )
 
@@ -9,7 +10,7 @@ import (
 // Implements queue interface.
 // The queue is implemented using an array.
 type LinearQueueArr struct {
-	values []queue.Value
+	values []util.Value
 	capacity int
 	front int
 	rear int
@@ -20,7 +21,7 @@ type LinearQueueArr struct {
 // NewLinearQueueArr returns a queue of the given capacity.
 func NewLinearQueueArr(c int) queue.Queue {
 	return &LinearQueueArr{
-		values: make([]queue.Value, c),
+		values: make([]util.Value, c),
 		capacity: c,
 		front: -1,
 		rear: -1,
@@ -30,7 +31,7 @@ func NewLinearQueueArr(c int) queue.Queue {
 
 // Enqueue the given value at the rear end of the queue.
 // Returns error if the queue is full.
-func (q *LinearQueueArr) Enqueue(v queue.Value) error {
+func (q *LinearQueueArr) Enqueue(v util.Value) error {
 	if q.isFull() {
 		return errors.New("cannot enqueue value as queue is full")
 	}
@@ -47,7 +48,7 @@ func (q *LinearQueueArr) Enqueue(v queue.Value) error {
 
 // Dequeue and return the value at the front of the queue.
 // Returns error if the queue is empty.
-func (q *LinearQueueArr) Dequeue() (queue.Value, error) {
+func (q *LinearQueueArr) Dequeue() (util.Value, error) {
 	if q.IsEmpty() {
 		return nil, errors.New("cannot dequeue as the queue is empty")
 	}
@@ -64,7 +65,7 @@ func (q *LinearQueueArr) Dequeue() (queue.Value, error) {
 
 // Peek at the value present at the front of the queue.
 // Returns error if the queue is empty.
-func (q LinearQueueArr) Peek() (queue.Value, error) {
+func (q LinearQueueArr) Peek() (util.Value, error) {
 	if q.IsEmpty() {
 		return nil, errors.New("cannot peek as queue is empty")
 	}
@@ -102,7 +103,7 @@ func (q *LinearQueueArr) reinitIfRequired() {
 	if q.values != nil {
 		return
 	}
-	q.values = make([]queue.Value, q.capacity)
+	q.values = make([]util.Value, q.capacity)
 	// For safety.
 	q.front = -1
 	q.rear = -1

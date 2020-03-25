@@ -35,7 +35,7 @@ func (ll LinkedList) Search(val int) bool {
 	}
 
 	for cur := ll.head; cur != nil; cur = cur.next {
-		if cur.val == val {
+		if cur.val.Get().(int) == val {
 			return true
 		}
 	}
@@ -51,7 +51,7 @@ func (ll *LinkedList) Delete(val int) bool {
 	deleted := false
 	var prev *node
 	for cur := ll.head; cur != nil; prev, cur = cur, cur.next {
-		if cur.val == val {
+		if cur.val.Get().(int) == val {
 			deleted = true
 			// prev is nil for first node.
 			if prev == nil {
@@ -95,7 +95,7 @@ func (ll *LinkedList) Reverse() {
 func (ll LinkedList) SerializeIntoArray() []int {
 	values := make([]int, ll.size)
 	for i, cur := 0, ll.head; cur != nil; i, cur = i+1, cur.next {
-		values[i] = cur.val
+		values[i] = cur.val.Get().(int)
 	}
 	return values
 }
