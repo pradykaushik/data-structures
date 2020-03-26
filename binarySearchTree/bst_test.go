@@ -39,7 +39,7 @@ func testBST(cur *node) bool {
 
 func checkLeft(cur *node) bool {
 	// Checking whether natural ordering is maintained between cur and left.
-	if (cur.left != nil) && (cur.left.val.Get().(int) < cur.val.Get().(int)) {
+	if (cur.left != nil) && (cur.left.val < cur.val) {
 		return true
 	} else if cur.left == nil {
 		return true
@@ -49,7 +49,7 @@ func checkLeft(cur *node) bool {
 
 func checkRight(cur *node) bool {
 	// Checking whether natural ordering is maintained between cur and left.
-	if (cur.right != nil) && (cur.right.val.Get().(int) > cur.val.Get().(int)) {
+	if (cur.right != nil) && (cur.right.val > cur.val) {
 		return true
 	} else if cur.right == nil {
 		return true
