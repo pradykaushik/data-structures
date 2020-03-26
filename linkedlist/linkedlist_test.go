@@ -60,6 +60,37 @@ func TestLinkedList_Delete(t *testing.T) {
 	assert.True(t, ll.IsEmpty())
 }
 
+func TestLinkedList_DeleteAtPos(t *testing.T) {
+	ll := getLinkedList()
+	// Testing deletion of the head.
+	for i := 0; !ll.IsEmpty(); i++ {
+		assert.True(t, ll.DeleteAtPos(0))
+	}
+	// LinkedList should be empty.
+	assert.True(t, ll.IsEmpty())
+
+	// Testing deletion of node at random position.
+	ll = getLinkedList()
+	for !ll.IsEmpty() {
+		values := ll.SerializeIntoArray()
+		randPos := rand.Intn(len(values))
+		assert.True(t, ll.DeleteAtPos(randPos))
+		// LinkedList should be smaller in size by 1 element.
+		assert.Equal(t, ll.Size(), len(values)-1)
+		valuesAfterRemoval := ll.SerializeIntoArray()
+
+		// Checking that the correct value has been removed.
+		if randPos == (len(values)-1) {
+			if len(valuesAfterRemoval) > 0 {
+				n := len(valuesAfterRemoval)
+				assert.NotEqual(t, values[randPos], valuesAfterRemoval[n-1])
+			}
+		} else {
+			assert.NotEqual(t, values[randPos], valuesAfterRemoval[randPos])
+		}
+	}
+}
+
 func TestLinkedList_Reverse(t *testing.T) {
 	ll := getLinkedList()
 	values := ll.SerializeIntoArray()

@@ -13,6 +13,10 @@ func (ll LinkedList) IsEmpty() bool {
 	return ll.head == nil
 }
 
+func (ll LinkedList) Size() int {
+	return ll.size
+}
+
 func (ll *LinkedList) Append(val int) {
 	if ll.IsEmpty() {
 		ll.head = NewNode(val)
@@ -68,6 +72,36 @@ func (ll *LinkedList) Delete(val int) bool {
 		}
 	}
 	return deleted
+}
+
+func (ll *LinkedList) DeleteAtPos(pos int) bool {
+	if ll.IsEmpty() {
+		return false
+	}
+	if pos >= ll.size {
+		return false
+	}
+
+	var prev *node
+	var cur = ll.head
+
+	for i := 0; i < pos; i++ {
+		prev = cur
+		cur = cur.next
+	}
+
+	// If prev is nil, then we need to remove head.
+	// Else, we need to remove the cur node.
+	if prev == nil {
+		ll.head = cur.next
+		cur.next = nil
+	} else {
+		prev.next = cur.next
+		cur.next = nil
+	}
+	cur = nil // setting up for garbage collection.
+	ll.size--
+	return true
 }
 
 func (ll *LinkedList) Reverse() {
