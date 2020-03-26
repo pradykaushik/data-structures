@@ -7,17 +7,9 @@ type node struct {
 	next *node
 }
 
-func NewNode(val int) *node {
+func NewNode(val util.Value) *node {
 	return &node{
-		val:  LLValue(val),
+		val:  val,
 		next: nil,
 	}
-}
-
-// LLValue represents the value stored in a linkedlist.
-// Implements util.Value interface.
-type LLValue int
-
-func (v LLValue) Get() interface{} {
-	return int(v)
 }

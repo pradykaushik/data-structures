@@ -6,12 +6,27 @@ import (
 	"testing"
 )
 
+
+// LLValue represents the value stored in a linkedlist as an integer.
+// Implements util.Value interface.
+type LLValue int
+
+func (v LLValue) Get() interface{} {
+	return int(v)
+}
+
 func getLinkedList() *LinkedList {
 	ll := NewLinkedList()
 	for i := 0; i < 10; i++ {
-		ll.Append(i)
+		ll.Append(LLValue(i))
 	}
 	return ll
+}
+
+func TestNewNode(t *testing.T) {
+	n := NewNode(LLValue(10))
+	assert.Equal(t, n.val.Get().(int), 10)
+	assert.Nil(t, n.next)
 }
 
 func TestNewLinkedList(t *testing.T) {
@@ -25,23 +40,23 @@ func TestLinkedList_Append(t *testing.T) {
 	values := ll.SerializeIntoArray()
 	assert.Equal(t, len(values), 10)
 	for i := 0; i < 10; i++ {
-		assert.Equal(t, values[i], i)
+		assert.Equal(t, values[i].Get().(int), i)
 	}
 }
 
 func TestLinkedList_Search(t *testing.T) {
 	ll := getLinkedList()
 	for i := 0; i < 10; i++ {
-		assert.True(t, ll.Search(i))
+		assert.True(t, ll.Search(LLValue(i)))
 	}
-	assert.False(t, ll.Search(11))
+	assert.False(t, ll.Search(LLValue(11)))
 }
 
 func TestLinkedList_Delete(t *testing.T) {
 	ll := getLinkedList()
 	// Testing deletion of the head.
 	for i := 0; !ll.IsEmpty(); i++ {
-		assert.True(t, ll.Delete(i))
+		assert.True(t, ll.Delete(LLValue(i)))
 	}
 	// LinkedList should be empty.
 	assert.True(t, ll.IsEmpty())
@@ -54,7 +69,7 @@ func TestLinkedList_Delete(t *testing.T) {
 		if _, ok := deleted[randVal]; ok {
 			continue
 		}
-		assert.True(t, ll.Delete(randVal))
+		assert.True(t, ll.Delete(LLValue(randVal)))
 		deleted[randVal] = true
 	}
 	assert.True(t, ll.IsEmpty())

@@ -1,5 +1,7 @@
 package linkedlist
 
+import "github.com/pradykaushik/data-structures/util"
+
 type LinkedList struct {
 	head *node
 	size int
@@ -17,7 +19,7 @@ func (ll LinkedList) Size() int {
 	return ll.size
 }
 
-func (ll *LinkedList) Append(val int) {
+func (ll *LinkedList) Append(val util.Value) {
 	if ll.IsEmpty() {
 		ll.head = NewNode(val)
 		ll.size++
@@ -33,13 +35,13 @@ func (ll *LinkedList) Append(val int) {
 	ll.size++
 }
 
-func (ll LinkedList) Search(val int) bool {
+func (ll LinkedList) Search(val util.Value) bool {
 	if ll.IsEmpty() {
 		return false
 	}
 
 	for cur := ll.head; cur != nil; cur = cur.next {
-		if cur.val.Get().(int) == val {
+		if cur.val == val {
 			return true
 		}
 	}
@@ -47,7 +49,7 @@ func (ll LinkedList) Search(val int) bool {
 	return false
 }
 
-func (ll *LinkedList) Delete(val int) bool {
+func (ll *LinkedList) Delete(val util.Value) bool {
 	if ll.IsEmpty() {
 		return false
 	}
@@ -55,7 +57,7 @@ func (ll *LinkedList) Delete(val int) bool {
 	deleted := false
 	var prev *node
 	for cur := ll.head; cur != nil; prev, cur = cur, cur.next {
-		if cur.val.Get().(int) == val {
+		if cur.val == val {
 			deleted = true
 			// prev is nil for first node.
 			if prev == nil {
@@ -126,10 +128,10 @@ func (ll *LinkedList) Reverse() {
 	ll.head = cur
 }
 
-func (ll LinkedList) SerializeIntoArray() []int {
-	values := make([]int, ll.size)
+func (ll LinkedList) SerializeIntoArray() []util.Value {
+	values := make([]util.Value, ll.size)
 	for i, cur := 0, ll.head; cur != nil; i, cur = i+1, cur.next {
-		values[i] = cur.val.Get().(int)
+		values[i] = cur.val
 	}
 	return values
 }
