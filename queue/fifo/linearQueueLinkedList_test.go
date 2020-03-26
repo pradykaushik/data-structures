@@ -6,18 +6,18 @@ import (
 	"testing"
 )
 
-type linearQArrVal int
+type linearQLLVal int
 
-func (v linearQArrVal) Get() interface{} {
+func (v linearQLLVal) Get() interface{} {
 	return int(v)
 }
 
-func TestNewLinearQueueArr(t *testing.T) {
-	q := NewLinearQueueArr(10)
+func TestNewLinearQueueLL(t *testing.T) {
+	q := NewLinearQueueLL(10)
 	// Testing types.
 	_, ok := q.(queue.Queue)
 	assert.True(t, ok)
-	_, ok = q.(*LinearQueueArr)
+	_, ok = q.(*LinearQueueLL)
 	assert.True(t, ok)
 	// Testing capacity.
 	assert.Equal(t, q.Capacity(), 10)
@@ -25,24 +25,24 @@ func TestNewLinearQueueArr(t *testing.T) {
 	assert.Zero(t, q.Size())
 }
 
-func getQueueArr(capacity int, t *testing.T) queue.Queue {
-	q := NewLinearQueueArr(capacity)
+func getQueueLL(capacity int, t *testing.T) queue.Queue {
+	q := NewLinearQueueLL(capacity)
 	for i := 0; i < capacity; i++ {
-		err := q.Enqueue(linearQArrVal(i))
+		err := q.Enqueue(linearQLLVal(i))
 		assert.NoError(t, err)
 	}
 	return q
 }
 
-func TestEnqueue_QueueWithArr(t *testing.T) {
-	q := getQueueArr(10, t)
-	assert.Error(t, q.Enqueue(linearQArrVal(100))) // value does not matter.
+func TestEnqueue_QueueWithLL(t *testing.T) {
+	q := getQueueLL(10, t)
+	assert.Error(t, q.Enqueue(linearQLLVal(100))) // value does not matter.
 	assert.Equal(t, q.Size(), 10)
 	assert.False(t, q.IsEmpty())
 }
 
-func TestDequeue_QueueWithArr(t *testing.T) {
-	q := getQueueArr(10, t)
+func TestDequeue_QueueWithLL(t *testing.T) {
+	q := getQueueLL(10, t)
 	assert.Equal(t, q.Size(), 10)
 	assert.False(t, q.IsEmpty())
 	for i := 0; i < 10; i++ {
@@ -60,8 +60,8 @@ func TestDequeue_QueueWithArr(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func TestClear(t *testing.T) {
-	q := getQueueArr(10, t)
+func TestClear_QueueWithLL(t *testing.T) {
+	q := getQueueLL(10, t)
 	assert.Equal(t, q.Size(), 10)
 	assert.False(t, q.IsEmpty())
 	q.Clear()

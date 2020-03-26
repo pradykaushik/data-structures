@@ -19,6 +19,13 @@ func (ll LinkedList) Size() int {
 	return ll.size
 }
 
+func (ll LinkedList) HeadVal() util.Value {
+	if ll.IsEmpty() {
+		return nil
+	}
+	return ll.head.val
+}
+
 func (ll *LinkedList) Append(val util.Value) {
 	if ll.IsEmpty() {
 		ll.head = NewNode(val)
@@ -76,16 +83,20 @@ func (ll *LinkedList) Delete(val util.Value) bool {
 	return deleted
 }
 
-func (ll *LinkedList) DeleteAtPos(pos int) bool {
+// DeleteAtPos deletes value at the given position.
+// Return boolean indicating whether the deletion was successful.
+// The value deleted is also returned.
+func (ll *LinkedList) DeleteAtPos(pos int) (util.Value, bool) {
 	if ll.IsEmpty() {
-		return false
+		return nil, false
 	}
 	if pos >= ll.size {
-		return false
+		return nil, false
 	}
 
 	var prev *node
 	var cur = ll.head
+	var deletedVal util.Value
 
 	for i := 0; i < pos; i++ {
 		prev = cur
@@ -94,6 +105,7 @@ func (ll *LinkedList) DeleteAtPos(pos int) bool {
 
 	// If prev is nil, then we need to remove head.
 	// Else, we need to remove the cur node.
+	deletedVal = cur.val
 	if prev == nil {
 		ll.head = cur.next
 		cur.next = nil
@@ -103,7 +115,7 @@ func (ll *LinkedList) DeleteAtPos(pos int) bool {
 	}
 	cur = nil // setting up for garbage collection.
 	ll.size--
-	return true
+	return deletedVal, true
 }
 
 func (ll *LinkedList) Reverse() {

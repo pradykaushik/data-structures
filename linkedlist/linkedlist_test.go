@@ -79,7 +79,9 @@ func TestLinkedList_DeleteAtPos(t *testing.T) {
 	ll := getLinkedList()
 	// Testing deletion of the head.
 	for i := 0; !ll.IsEmpty(); i++ {
-		assert.True(t, ll.DeleteAtPos(0))
+		deletedVal, hasBeenDeleted := ll.DeleteAtPos(0)
+		assert.True(t, hasBeenDeleted)
+		assert.NotNil(t, deletedVal)
 	}
 	// LinkedList should be empty.
 	assert.True(t, ll.IsEmpty())
@@ -89,7 +91,9 @@ func TestLinkedList_DeleteAtPos(t *testing.T) {
 	for !ll.IsEmpty() {
 		values := ll.SerializeIntoArray()
 		randPos := rand.Intn(len(values))
-		assert.True(t, ll.DeleteAtPos(randPos))
+		deletedVal, hasBeenDeleted := ll.DeleteAtPos(randPos)
+		assert.True(t, hasBeenDeleted)
+		assert.NotNil(t, deletedVal)
 		// LinkedList should be smaller in size by 1 element.
 		assert.Equal(t, ll.Size(), len(values)-1)
 		valuesAfterRemoval := ll.SerializeIntoArray()
