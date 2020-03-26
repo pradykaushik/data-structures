@@ -11,4 +11,3 @@ Run `go test ./<name of data structure>`.
 * Binary Search Tree
 * Fifo Queue
   - Linear Queue implemented using Arrays.
-  - Linear Queue implemented using LinkedList.
