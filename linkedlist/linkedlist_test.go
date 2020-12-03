@@ -16,7 +16,7 @@ func (v LLValue) Get() interface{} {
 }
 
 func getLinkedList() *LinkedList {
-	ll := NewLinkedList()
+	ll := New()
 	for i := 0; i < 10; i++ {
 		ll.Append(LLValue(i))
 	}
@@ -29,8 +29,8 @@ func TestNewNode(t *testing.T) {
 	assert.Nil(t, n.next)
 }
 
-func TestNewLinkedList(t *testing.T) {
-	ll := NewLinkedList()
+func TestNew(t *testing.T) {
+	ll := New()
 	assert.NotNil(t, ll)
 	assert.True(t, ll.IsEmpty())
 }

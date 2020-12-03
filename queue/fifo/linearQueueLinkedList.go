@@ -18,7 +18,7 @@ type LinearQueueLL struct {
 // NewLinearQueueLL returns a queue of the given capacity.
 func NewLinearQueueLL(c int) queue.Queue {
 	return &LinearQueueLL{
-		values: ll.NewLinkedList(),
+		values: ll.New(),
 		capacity: c,
 	}
 }
@@ -69,7 +69,7 @@ func (q LinearQueueLL) Size() int {
 
 // Clear the contents of the queue.
 func (q *LinearQueueLL) Clear() {
-	q.values = ll.NewLinkedList()
+	q.values = ll.New()
 }
 
 // isFull returns whether the queue has reached its capacity.

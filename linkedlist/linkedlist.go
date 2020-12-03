@@ -7,7 +7,7 @@ type LinkedList struct {
 	size int
 }
 
-func NewLinkedList() *LinkedList {
+func New() *LinkedList {
 	return &LinkedList{head: nil, size: 0}
 }
 
@@ -24,6 +24,13 @@ func (ll LinkedList) HeadVal() util.Value {
 		return nil
 	}
 	return ll.head.val
+}
+
+func (ll *LinkedList) AddToFront(val util.Value) {
+	n := NewNode(val)
+	n.next = ll.head
+	ll.head = n
+	ll.size++
 }
 
 func (ll *LinkedList) Append(val util.Value) {
