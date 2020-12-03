@@ -1,21 +1,21 @@
 package undirected
 
 import (
+	"bytes"
+	"fmt"
 	"github.com/pradykaushik/data-structures/graphs"
 	"github.com/pradykaushik/data-structures/linkedlist"
 	"github.com/pradykaushik/data-structures/queue"
 	"github.com/pradykaushik/data-structures/queue/fifo"
-	"bytes"
-	"fmt"
 )
 
 // UndirectedGraph is a Graph where the edges are not directed.
 // This means that one could traverse from a vertex to another vertex as long as there
 // is at least one edge connecting the two.
 type UndirectedGraph struct {
-	gph []*linkedlist.LinkedList // using adjancency list representation.
+	gph         []*linkedlist.LinkedList // using adjancency list representation.
 	numVertices int
-	numEdges int
+	numEdges    int
 }
 
 // Vertex implements util.Value and represents a vertex in the graph.
@@ -29,9 +29,9 @@ func (v Vertex) Get() interface{} {
 // Note that this undirected graph will have no edges to begin with.
 func NewUndirectedGraph(v int) graphs.Graph {
 	g := &UndirectedGraph{
-		gph: make([]*linkedlist.LinkedList, v),
+		gph:         make([]*linkedlist.LinkedList, v),
 		numVertices: v,
-		numEdges: 0,
+		numEdges:    0,
 	}
 
 	for i := 0; i < g.numVertices; i++ {

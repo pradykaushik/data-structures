@@ -1,24 +1,24 @@
 package fifo
 
 import (
-	"github.com/pradykaushik/data-structures/queue"
-	ll "github.com/pradykaushik/data-structures/linkedlist"
-	"github.com/pradykaushik/data-structures/util"
 	"github.com/pkg/errors"
+	ll "github.com/pradykaushik/data-structures/linkedlist"
+	"github.com/pradykaushik/data-structures/queue"
+	"github.com/pradykaushik/data-structures/util"
 )
 
 // LinearQueueLL is a first-in-first-out queue implementation.
 // Implements queue interface.
 // The queue is implemented using a singly linkedlist.
 type LinearQueueLL struct {
-	values *ll.LinkedList
+	values   *ll.LinkedList
 	capacity int
 }
 
 // NewLinearQueueLL returns a queue of the given capacity.
 func NewLinearQueueLL(c int) queue.Queue {
 	return &LinearQueueLL{
-		values: ll.New(),
+		values:   ll.New(),
 		capacity: c,
 	}
 }

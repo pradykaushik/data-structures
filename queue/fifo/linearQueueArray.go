@@ -1,19 +1,19 @@
 package fifo
 
 import (
+	"github.com/pkg/errors"
 	"github.com/pradykaushik/data-structures/queue"
 	"github.com/pradykaushik/data-structures/util"
-	"github.com/pkg/errors"
 )
 
 // LinearQueueArr is a first-in-first-out queue implementation.
 // Implements queue interface.
 // The queue is implemented using an array.
 type LinearQueueArr struct {
-	values []util.Value
+	values   []util.Value
 	capacity int
-	front int
-	rear int
+	front    int
+	rear     int
 	// size is the current number of elements in the queue.
 	size int
 }
@@ -21,11 +21,11 @@ type LinearQueueArr struct {
 // NewLinearQueueArr returns a queue of the given capacity.
 func NewLinearQueueArr(c int) queue.Queue {
 	return &LinearQueueArr{
-		values: make([]util.Value, c),
+		values:   make([]util.Value, c),
 		capacity: c,
-		front: -1,
-		rear: -1,
-		size: 0,
+		front:    -1,
+		rear:     -1,
+		size:     0,
 	}
 }
 

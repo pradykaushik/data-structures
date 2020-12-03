@@ -6,7 +6,6 @@ import (
 	"testing"
 )
 
-
 // LLValue represents the value stored in a linkedlist as an integer.
 // Implements util.Value interface.
 type LLValue int
@@ -99,7 +98,7 @@ func TestLinkedList_DeleteAtPos(t *testing.T) {
 		valuesAfterRemoval := ll.SerializeIntoArray()
 
 		// Checking that the correct value has been removed.
-		if randPos == (len(values)-1) {
+		if randPos == (len(values) - 1) {
 			if len(valuesAfterRemoval) > 0 {
 				n := len(valuesAfterRemoval)
 				assert.NotEqual(t, values[randPos], valuesAfterRemoval[n-1])

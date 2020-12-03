@@ -1,10 +1,10 @@
 package undirected
 
 import (
+	"fmt"
 	"github.com/pradykaushik/data-structures/graphs"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"fmt"
 )
 
 func TestNewUndirectedGraph(t *testing.T) {
@@ -93,7 +93,7 @@ func compare2dArrays(t *testing.T, arr1, arr2 [][]int) {
 
 func TestAdjacent(t *testing.T) {
 	ug := getUndirectedGraph(t)
-	var expectedAdjLists = [][]int {
+	var expectedAdjLists = [][]int{
 		{6, 2, 1, 5},
 		{0},
 		{0},
@@ -120,7 +120,7 @@ func TestAdjacent(t *testing.T) {
 
 func TestDegrees(t *testing.T) {
 	ug := getUndirectedGraph(t)
-	var expectedDegrees = []int {4, 1, 1, 2, 3, 3, 2, 1, 1, 3, 1, 2, 2}
+	var expectedDegrees = []int{4, 1, 1, 2, 3, 3, 2, 1, 1, 3, 1, 2, 2}
 	assert.Equal(t, ug.GetV(), 13)
 	for i := 0; i < 13; i++ {
 		var deg, indeg, outdeg int
