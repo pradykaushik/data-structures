@@ -12,3 +12,8 @@ Run `go test ./<name of data structure>`.
 * Fifo Queue
   - Linear Queue implemented using Arrays.
   - Linear Queue implemented using LinkedList.
+* Graphs
+  - Undirected Graphs
+    - Graph creation.
+	- DFS traversal.
+	- BFS traversal.
