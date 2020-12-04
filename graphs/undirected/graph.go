@@ -7,6 +7,7 @@ import (
 	"github.com/pradykaushik/data-structures/linkedlist"
 	"github.com/pradykaushik/data-structures/queue"
 	"github.com/pradykaushik/data-structures/queue/fifo"
+	"github.com/pradykaushik/data-structures/stack"
 )
 
 // UndirectedGraph is a Graph where the edges are not directed.
@@ -164,5 +165,100 @@ func (g UndirectedGraph) bfs(
 				(*visited)[adjV.Get().(int)] = struct{}{} // marking visited.
 			}
 		}
+	}
+}
+
+// All the vertices visited in a dfs are connected to the source vertex.
+func (g UndirectedGraph) ConnectedVertices(source int) ([]int, bool) {
+	if source >= len(g.gph) {
+		return []int{}, false
+	}
+
+	var connected = make([]int, 0, 0)
+	var visited = make(map[int]struct{})
+	g.connectedVertices(source, &visited, &connected)
+	return connected, true
+}
+
+func (g UndirectedGraph) connectedVertices(
+	v int,
+	visited *map[int]struct{},
+	connected *[]int) {
+
+	(*connected) = append(*connected, v)
+	(*visited)[v] = struct{}{}
+	for _, adjV := range g.gph[v].SerializeIntoArray() {
+		if _, ok := (*visited)[adjV.Get().(int)]; !ok {
+			g.connectedVertices(adjV.Get().(int), visited, connected)
+		}
+	}
+}
+
+// Creating the path while traversing the graph.
+// If going down a path wasn't fruitful, then removing the corresponding vertices from path path.
+// This way, by the time we're done traversing the graph, we'll have the path - (V + E).
+//
+// Important note - the max path length = V.
+func (g UndirectedGraph) FindPathV2(source, dest int) ([]int, bool) {
+	if (source >= len(g.gph)) || (dest >= len(g.gph)) {
+		return []int{}, false
+	}
+
+	if source == dest {
+		return []int{source}, true
+	}
+
+	// Using a circular queue for constant time pop() operation.
+	// Could also use doubly linkedlist (might actually be more efficient).
+	var path = stack.NewArrayStack(len(g.gph))
+	var found = false
+	var visited = make(map[int]struct{})
+	g.findPathV2(source, dest, source, &visited, path, &found)
+	var pathArr []int
+	for !path.IsEmpty() {
+		v, _ := path.Pop()
+		pathArr = append([]int{v}, pathArr...)
+	}
+	return pathArr, found
+}
+
+func (g UndirectedGraph) findPathV2(
+	source, dest int,
+	curV int,
+	visited *map[int]struct{},
+	path stack.Stack,
+	found *bool) {
+
+	(*visited)[curV] = struct{}{} // marking as visited.
+	if curV == dest {
+		// we have found the path.
+		(*found) = true
+		path.Push(curV)
+		return
+	}
+
+	// keeping track of whether there aren't any more vertices to explore.
+	var moreToExplore = false
+	var toExplore []int
+	for _, adjV := range g.gph[curV].SerializeIntoArray() {
+		if _, ok := (*visited)[adjV.Get().(int)]; !ok {
+			moreToExplore = true
+			toExplore = append(toExplore, adjV.Get().(int))
+		}
+	}
+
+	if moreToExplore {
+		path.Push(curV)
+		for _, v := range toExplore {
+			if _, ok := (*visited)[v]; !ok {
+				g.findPathV2(source, dest, v, visited, path, found)
+				if *found {
+					// this exploration was fruitful.
+					return
+				}
+			}
+		}
+		// If here, then none of the explorations from curV were fruitful.
+		path.Pop()
 	}
 }

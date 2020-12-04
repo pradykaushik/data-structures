@@ -25,7 +25,12 @@ type Graph interface {
 	// String representation of the graph.
 	String() string
 
-	// Traversals and Searching
+	// Traversals.
 	Dfs() []int
 	Bfs() []int
+
+	// Graph based algorithms.
+	ConnectedVertices(int) ([]int, bool)
+	// FindPath(int, int) ([]int, bool)
+	FindPathV2(int, int) ([]int, bool)
 }

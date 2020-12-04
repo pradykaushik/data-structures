@@ -150,3 +150,36 @@ func TestPrintBfs(t *testing.T) {
 	bfsResult := ug.Bfs()
 	compareArrays(t, []int{0, 6, 2, 1, 5, 4, 3, 7, 8, 9, 11, 10, 12}, bfsResult)
 }
+
+func TestConnectedVertices(t *testing.T) {
+	ug := getUndirectedGraph(t)
+	for i := 0; i < 7; i++ {
+		connectedV, validVertex := ug.ConnectedVertices(i)
+		assert.True(t, validVertex)
+		assert.ElementsMatch(t, []int{0, 1, 2, 3, 4, 5, 6}, connectedV)
+	}
+
+	for i := 7; i < 9; i++ {
+		connectedV, validVertex := ug.ConnectedVertices(i)
+		assert.True(t, validVertex)
+		assert.ElementsMatch(t, []int{7, 8}, connectedV)
+	}
+
+	for i := 9; i < 13; i++ {
+		connectedV, validVertex := ug.ConnectedVertices(i)
+		assert.True(t, validVertex)
+		assert.ElementsMatch(t, []int{9, 10, 11, 12}, connectedV)
+	}
+}
+
+func TestFindPathV2(t *testing.T) {
+	ug := getUndirectedGraph(t)
+	for i := 0; i < 13; i++ {
+		for j := 0; j < 13; j++ {
+			path, found := ug.FindPathV2(i, j)
+			if found {
+				t.Logf("path[%d -> %d] => %v", i, j, path)
+			}
+		}
+	}
+}
