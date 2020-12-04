@@ -159,10 +159,11 @@ func (g UndirectedGraph) bfs(
 		v := nextV.Get().(int)
 		(*visited)[v] = struct{}{} // marking visited.
 		(*result) = append(*result, v)
-		for _, adjV := range g.gph[v].SerializeIntoArray() {
-			if _, ok := (*visited)[adjV.Get().(int)]; !ok {
-				next.Enqueue(adjV)
-				(*visited)[adjV.Get().(int)] = struct{}{} // marking visited.
+		adjList, _ := g.Adjacent(v)
+		for _, adjV := range adjList {
+			if _, ok := (*visited)[adjV]; !ok {
+				next.Enqueue(Vertex(adjV))
+				(*visited)[adjV] = struct{}{} // marking visited.
 			}
 		}
 	}
@@ -187,9 +188,10 @@ func (g UndirectedGraph) connectedVertices(
 
 	(*connected) = append(*connected, v)
 	(*visited)[v] = struct{}{}
-	for _, adjV := range g.gph[v].SerializeIntoArray() {
-		if _, ok := (*visited)[adjV.Get().(int)]; !ok {
-			g.connectedVertices(adjV.Get().(int), visited, connected)
+	adjList, _ := g.Adjacent(v)
+	for _, adjV := range adjList {
+		if _, ok := (*visited)[adjV]; !ok {
+			g.connectedVertices(adjV, visited, connected)
 		}
 	}
 }
@@ -292,10 +294,11 @@ func (g UndirectedGraph) findPathV2(
 	// keeping track of whether there aren't any more vertices to explore.
 	var moreToExplore = false
 	var toExplore []int
-	for _, adjV := range g.gph[curV].SerializeIntoArray() {
-		if _, ok := (*visited)[adjV.Get().(int)]; !ok {
+	adjList, _ := g.Adjacent(curV)
+	for _, adjV := range adjList {
+		if _, ok := (*visited)[adjV]; !ok {
 			moreToExplore = true
-			toExplore = append(toExplore, adjV.Get().(int))
+			toExplore = append(toExplore, adjV)
 		}
 	}
 
