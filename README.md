@@ -18,3 +18,4 @@ Run `go test ./<name of data structure>`.
 	- DFS traversal.
 	- BFS traversal.
 	- Find Path from source to destination.
+	- Find Connected Components

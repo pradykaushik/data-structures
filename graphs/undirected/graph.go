@@ -317,3 +317,16 @@ func (g UndirectedGraph) findPathV2(
 		path.Pop()
 	}
 }
+
+func (g UndirectedGraph) FindConnectedComponents() [][]int {
+	var visited = make(map[int]struct{})
+	var connectedComponents = make([][]int, 0, 0)
+	for i := 0; i < len(g.gph); i++ {
+		var connected = make([]int, 0, 0)
+		if _, ok := visited[i]; !ok {
+			g.connectedVertices(i, &visited, &connected)
+			connectedComponents = append(connectedComponents, connected)
+		}
+	}
+	return connectedComponents
+}

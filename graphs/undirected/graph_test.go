@@ -195,3 +195,13 @@ func TestFindPathV2(t *testing.T) {
 		}
 	}
 }
+
+func TestFindConnectedComponents(t *testing.T) {
+	ug := getUndirectedGraph(t)
+	connectedComponents := ug.FindConnectedComponents()
+	assert.ElementsMatch(t, [][]int{
+		[]int{0, 6, 4, 5, 3, 2, 1},
+		[]int{7, 8},
+		[]int{9, 11, 12, 10},
+	}, connectedComponents)
+}
