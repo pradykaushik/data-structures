@@ -17,3 +17,4 @@ Run `go test ./<name of data structure>`.
     - Graph creation.
 	- DFS traversal.
 	- BFS traversal.
+	- Find Path from source to destination.
