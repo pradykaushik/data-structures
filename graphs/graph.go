@@ -31,6 +31,6 @@ type Graph interface {
 
 	// Graph based algorithms.
 	ConnectedVertices(int) ([]int, bool)
-	// FindPath(int, int) ([]int, bool)
+	FindPath(int, int) ([]int, bool)
 	FindPathV2(int, int) ([]int, bool)
 }

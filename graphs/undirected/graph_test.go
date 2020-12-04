@@ -172,6 +172,18 @@ func TestConnectedVertices(t *testing.T) {
 	}
 }
 
+func TestFindPath(t *testing.T) {
+	ug := getUndirectedGraph(t)
+	for i := 0; i < 13; i++ {
+		for j := 0; j < 13; j++ {
+			path, found := ug.FindPath(i, j)
+			if found {
+				t.Logf("path[%d -> %d] => %v", i, j, path)
+			}
+		}
+	}
+}
+
 func TestFindPathV2(t *testing.T) {
 	ug := getUndirectedGraph(t)
 	for i := 0; i < 13; i++ {

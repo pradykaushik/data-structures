@@ -194,6 +194,58 @@ func (g UndirectedGraph) connectedVertices(
 	}
 }
 
+// FindPath finds a path from source vertex to destination vertex.
+//
+// When traversing the graph, store the parent vertices after each hop.
+// The parents are then traced back from the destination to the source.
+func (g UndirectedGraph) FindPath(source, dest int) ([]int, bool) {
+	if (source >= len(g.gph)) || (dest >= len(g.gph)) {
+		return []int{}, false
+	}
+
+	if source == dest {
+		return []int{source}, true
+	}
+
+	var found = false
+	var visited = make(map[int]struct{})
+	var parentTracker = make([]int, len(g.gph))
+	g.findPath(source, dest, source, &visited, &parentTracker, &found)
+	var path = make([]int, 0, 0)
+	var i = dest
+	if found {
+		for i != source {
+			path = append([]int{i}, path...)
+			i = parentTracker[i]
+		}
+		path = append([]int{i}, path...)
+	}
+	return path, found
+}
+
+func (g UndirectedGraph) findPath(
+	source, dest int,
+	curV int,
+	visited *map[int]struct{},
+	parentTracker *[]int,
+	found *bool) {
+
+	(*parentTracker)[curV] = source
+	(*visited)[curV] = struct{}{}
+
+	if curV == dest {
+		*found = true
+		return
+	}
+
+	adjList, _ := g.Adjacent(curV)
+	for _, adjV := range adjList {
+		if _, ok := (*visited)[adjV]; !ok {
+			g.findPath(curV, dest, adjV, visited, parentTracker, found)
+		}
+	}
+}
+
 // Creating the path while traversing the graph.
 // If going down a path wasn't fruitful, then removing the corresponding vertices from path path.
 // This way, by the time we're done traversing the graph, we'll have the path - (V + E).
@@ -208,7 +260,7 @@ func (g UndirectedGraph) FindPathV2(source, dest int) ([]int, bool) {
 		return []int{source}, true
 	}
 
-	// Using a circular queue for constant time pop() operation.
+	// Using a stack for constant time pop() operation.
 	// Could also use doubly linkedlist (might actually be more efficient).
 	var path = stack.NewArrayStack(len(g.gph))
 	var found = false
