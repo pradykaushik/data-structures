@@ -64,7 +64,7 @@ func (h *MaxHeap) BuildHeap() {
 }
 
 func (h *MaxHeap) siftUp(i int) {
-	parent := i / 2
+	parent := (i - 1) / 2
 	if h.withinBounds(parent) && (h.data[parent] < h.data[i]) {
 		h.data[parent], h.data[i] = h.data[i], h.data[parent]
 		h.siftUp(parent)
